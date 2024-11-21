@@ -1,7 +1,129 @@
 #!/bin/bash
+#!/bin/bash
+{ #Checks if sudo password has been set
+setPassword=$(passwd -S | grep -c "NP")
+
+
+if [ $setPassword -eq 0 ] ; then
+  echo "sudo password set, skipping..."
+else
+  echo "Please set a password"
+  echo "Do not lose this password, it's a PITA to reset"
+  passwd
+fi
+}
+
+. /etc/os-release
+{ #Steam Deck Compatibility - Enables pacman
+if [ "$ID" == "steamos" ] ; then
+echo "This is a Steam Deck, disabling write protection and enabling pacman"
+sudo steamos-readonly disable
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+fi
+}
+
+{ #install MegaCMD to allow for direct download of Mega.nz links
+if pacman -Qs megacmd > /dev/null ; then
+  echo "megacmd is installed, skipping..."
+else
+  wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megacmd-x86_64.pkg.tar.zst"
+fi
+}
+
+{ #Checks if dependencies from Arch Repository installed, installs if not existing
+declare -a arr=("wine" "winetricks" "wine-mono" "wine-gecko" "flatpak" "unrar" "ark")
+for package in "${arr[@]}"
+  do
+    if pacman -Qs $package > /dev/null ; then
+      echo "$package is installed, skipping..."
+    else
+      sudo pacman -Sy --noconfirm $package
+    fi
+  done
+}
+
+[ -f ~/megacmd-x86_64.pkg.tar.zst ] && rm ~/megacmd-x86_64.pkg.tar.zst #cleanup temp file
 
 {
+if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ; then
+    echo ""
+    echo -e "Mega link out of date, please manually download from \e[0;34mhttps://yuna.ms/download\e[0m and run this script again."
+    echo ""
+    echo -e "Ping \e[0;35m@DarkSirrush\e[0m on Discord to get the link updated. Alternatively, start a pull request at \e[0;34mhttps://github.com/DarkSirrush/YunaStuff\e[0m"
+    echo ""
+    exit
+  else
+    [ ! -f ~/Downloads/YunaMS.rar ] && mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads #Download YunaMS main file
+fi
+}
+
+[ ! -f ~/Downloads/linux-patcher.rar ] && curl https://yuna.ms/linux-patcher -o ~/Downloads/linux-patcher.rar #Download linux-specific files
+mkdir -p ~/Games
+ark -b ~/Downloads/YunaMS.rar -o ~/Games/
+rm ~/Games/YunaMS/D3DCompiler_47_cor3.dll
+rm ~/Games/YunaMS/Patcher.exe
+rm ~/Games/YunaMS/PenImc_cor3.dll
+rm ~/Games/YunaMS/PresentationNative_cor3.dll
+rm ~/Games/YunaMS/vcruntime140_cor3.dll
+rm ~/Games/YunaMS/wpfgfx_cor3.dll
+ark -b ~/Downloads/linux-patcher.rar -o ~/Games/YunaMS/
+flatpak install -y --noninteractive flathub com.usebottles.bottles #install bottles from Flathub
+flatpak override --user --filesystem=home com.usebottles.bottles
+sleep 5 && echo "Sleeping for 5 seconds"
+. "$BASH" &>/dev/null
+flatpak run com.usebottles.bottles #first run, close manually once done first run process... need to see if I can auto close it?
+flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name YunaMS --environment gaming #creates the bottle
+WINEPREFIX=~/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS winetricks -q dinput8 dotnetdesktop6 #installs Patcher dependencies
+flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n YunaMS -p ~/Games/YunaMS/YunaMS.exe #adds launch option for game
+flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n Patcher -p ~/Games/YunaMS/Patcher.exe #adds launch option for patcher
+flatpak run --command=bottles-cli com.usebottles.bottles run -b YunaMS -p Patcher #Patcher first run
+
+{
+if [ ! -f ~/.local/share/applications/YunaMS.desktop ]; then
+mkdir -p ~/.local/share/applications/
+rm ~/.local/share/applications/YunaMS.desktop
+touch ~/.local/share/applications/YunaMS.desktop
+cat << EOF >> ~/.local/share/applications/YunaMS.desktop
+[Desktop Entry]
+Name=YunaMS
+Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
+Type=Application
+Terminal=false
+Categories=Game;
+Icon=~/Games/YunaMS/icon.png
+Comment=Launch YunaMS using Bottles.
+StartupWMClass=YunaMS
+Actions=Configure;
+[Desktop Action Configure]
+Name=Configure in Bottles
+Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
+EOF
+fi
+}
+
+}
+. /etc/os-release
+{ #Steam Deck Compatibility - Enables pacman
+if [ "$ID" == "steamos" ] ; then
+echo "This is a Steam Deck, enabling write protection"
+sudo steamos-readonly enable
+echo ""
+echo "If you know what you are doing, and need write protection to stay off, please run the command \"sudo steamos-readonly disable\" again."
+fi
+}
+
+. /etc/os-release
+{ #Steam Deck Compatibility - Sets default resolution
+if [ "$ID" == "steamos" ] ; then
+echo "This is a Steam Deck, setting default resolution to 1280x800"
+resolution="2"
+else
 resolution="1"
+fi
+}
+
+{
 proxy="0"
 centered="0"
 background="1"
@@ -12,47 +134,64 @@ if [[ "$changeconfig" =~ ^([yY][eE][sS]|[yY])$ ]]; then
 
   echo "0 = 800x600"
   echo "1 = 1280x720 (recommended)"
-  echo "2 = 1280x800"
+  echo "2 = 1280x800 (Steam Deck Resolution)"
   echo "3 = 1600x900"
   echo "4 = 1920x1080"
   echo "5 = 1920x1200"
   echo "6 = 2560x1440"
   echo "7 = 3840x1080 (Ultrawide only)"
+
+  echo ""
+  echo "Press enter for default"
   read -p 'What is your preferred resolution (0-7)? ' resolution
   until [[ $resolution =~ ^(-0+|\+?0*[012345])$ ]] ; do
     read -r -p "please enter a number between 0 and 7: " resolution
   done
 
+  echo ""
   echo "Connect to Singapore Proxy Server"
   echo "SEA users will experience more stable connections if enabling this configuration"
   echo "Set this value to 1 only if you are having trouble connecting to the game server while overseas"
+  echo ""
+  echo "Press enter for default"
   read -p 'Do you want to use the Singapore proxy (y/N)? ' proxyq
   if [[ "$proxyq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
     proxy="1"
   fi
 
+  echo ""
+  echo "Press enter for default"
   read -p 'Do you want the game to start centered (y/N)? ' centeredq
   if [[ "$centeredq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
     centered="1"
   fi
 
+  echo ""
   echo "Map Backgrounds"
   echo "May increase performance at the cost of beauty"
+  echo ""
+  echo "Press enter for default"
   read -p 'Do you want backgrounds to be disabled (y/N)? ' backgroundq
   if [[ "$backgroundq" =~ ^([yY][eE][sS]|[yY])|"0"$ ]]; then
     background="0"
   fi
 
+  echo ""
   echo "WASD Movement Remapping"
   echo "Prefer to use WASD instead of the arrow keys? Enable this! Simply set the value to 1"
   echo "NOTE: The arrow keys will basically swap with WASD keys, so you can still assign keys to them"
+  echo ""
+  echo "Press enter for default"
   read -p 'Do you want to use WASD as your movement keys (y/N)? ' wasdq
   if [[ "$wasdq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
     wasd="1"
   fi
 
+  echo ""
   echo "Expanded Quick Slot"
   echo "This option will extend the quickslot window from 8 slots to 26 slots"
+  echo ""
+  echo "Press enter for default"
   read -p 'Do you want to extend your quickslots (y/N)? ' quickslotq
   if [[ "$quickslotq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
     quickslot="1"
