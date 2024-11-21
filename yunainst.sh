@@ -3,12 +3,22 @@
 setPassword=$(passwd -S | grep -c "NP")
 
 
-if [ $setPassword -eq 0 ]; then
+if [ $setPassword -eq 0 ] ; then
   echo "sudo password set, skipping..."
 else
   echo "Please set a password"
   echo "Do not lose this password, it's a PITA to reset"
   passwd
+fi
+}
+
+. /etc/os-release
+{ #Steam Deck Compatibility - Enables pacman
+if [ "$ID" == "steamos" ] ; then
+echo "This is a Steam Deck, disabling write protection and enabling pacman"
+sudo steamos-readonly disable
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
 fi
 }
 
@@ -88,5 +98,15 @@ Actions=Configure;
 Name=Configure in Bottles
 Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
 EOF
+fi
+}
+
+. /etc/os-release
+{ #Steam Deck Compatibility - Enables pacman
+if [ "$ID" == "steamos" ] ; then
+echo "This is a Steam Deck, enabling write protection"
+sudo steamos-readonly enable
+echo ""
+echo "If you know what you are doing, and need write protection to stay off, please run the command \"sudo steamos-readonly disable\" again."
 fi
 }
