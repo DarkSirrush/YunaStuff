@@ -102,7 +102,6 @@ EOF
 fi
 }
 
-}
 . /etc/os-release
 { #Steam Deck Compatibility - Enables pacman
 if [ "$ID" == "steamos" ] ; then
