@@ -294,20 +294,20 @@ elif [ "$ID" == "arch"|"arch32"|"arcolinux"|"artix"|"blackarch"|"chimeraos"|"end
       rm ~/.local/share/applications/YunaMS.desktop
       touch ~/.local/share/applications/YunaMS.desktop
       cat <<-EOF> ~/.local/share/applications/YunaMS.desktop 
-  [Desktop Entry]
-  Name=YunaMS
-  Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
-  Type=Application
-  Terminal=false
-  Categories=Game;
-  Icon=~/Games/YunaMS/icon.png
-  Comment=Launch YunaMS using Bottles.
-  StartupWMClass=YunaMS
-  Actions=Configure;
-  [Desktop Action Configure]
-  Name=Configure in Bottles
-  Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
-  EOF
+[Desktop Entry]
+Name=YunaMS
+Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
+Type=Application
+Terminal=false
+Categories=Game;
+Icon=~/Games/YunaMS/icon.png
+Comment=Launch YunaMS using Bottles.
+StartupWMClass=YunaMS
+Actions=Configure;
+[Desktop Action Configure]
+Name=Configure in Bottles
+Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
+EOF
     fi
   }
 
