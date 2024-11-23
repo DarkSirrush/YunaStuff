@@ -311,7 +311,7 @@ EOF
     fi
   }
 
-  { #Create Game Config
+#Create Game Config
     resolution="1"
     proxy="0"
     centered="0"
@@ -440,7 +440,7 @@ wasd_remapping = "$wasd"
 expanded_qs = "$quickslot"
 ;==============================================================================================
 EOF
-  }
+
 
 else
   echo -e "This script does not support your OS. Raise an issue, or, better yet, do a pull request with your chosen OS at \e[0;34mhttps://github.com/DarkSirrush/YunaStuff\e[0m"
