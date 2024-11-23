@@ -75,20 +75,20 @@
       rm ~/.local/share/applications/YunaMS.desktop
       touch ~/.local/share/applications/YunaMS.desktop
       cat <<-EOF> ~/.local/share/applications/YunaMS.desktop 
-      [Desktop Entry]
-      Name=YunaMS
-      Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
-      Type=Application
-      Terminal=false
-      Categories=Game;
-      Icon=~/Games/YunaMS/icon.png
-      Comment=Launch YunaMS using Bottles.
-      StartupWMClass=YunaMS
-      Actions=Configure;
-      [Desktop Action Configure]
-      Name=Configure in Bottles
-      Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
-      EOF
+[Desktop Entry]
+Name=YunaMS
+Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
+Type=Application
+Terminal=false
+Categories=Game;
+Icon=~/Games/YunaMS/icon.png
+Comment=Launch YunaMS using Bottles.
+StartupWMClass=YunaMS
+Actions=Configure;
+[Desktop Action Configure]
+Name=Configure in Bottles
+Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
+EOF
     fi
   }
   
@@ -171,56 +171,56 @@
     rm ~/Games/YunaMS/Settings.ini
     touch ~/Games/YunaMS/Settings.ini
     cat <<-EOF> ~/Games/YunaMS/Settings.ini
-      [Settings]
-      
-      ; Most client modifications can be changed in-game via the Widget (bottom right button in-game).
-      ; For other settings, see below. Simply change the value after the "=" sign to your liking.
-      
-      ;==============================================================================================
-      ; Change Client Resolution
-      ; NOTE: Larger resolutions can only be supported by specific monitors!
-      ; 0 = 800x600
-      ; 1 = 1280x720 (recommended)
-      ; 2 = 1280x800
-      ; 3 = 1600x900
-      ; 4 = 1920x1080
-      ; 5 = 1920x1200
-      ; 6 = 2560x1440
-      ; 7 = 3840x1080 (Ultrawide only)
-      resolution = "$resolution"
-      ;==============================================================================================
-      ; Connect to Singapore Proxy Server
-      ; SEA users will experience more stable connections if enabling this configuration
-      ; Set this value to 1 only if you are having trouble connecting to the game server while overseas
-      ; 0 = Use main game server (default)
-      ; 1 = Use singapore proxy server
-      singapore_proxy = "$proxy"
-      ;==============================================================================================
-      ; Change Position of Client on Launch
-      ; 0 = Client launches top left of screen
-      ; 1 = Client launches centered
-      start_centered = "$centered"
-      ;==============================================================================================
-      ; Map Backgrounds
-      ; May increase performance at the cost of beauty
-      ; 0 = Disabled
-      ; 1 = Enabled (default)
-      map_background = "$background"
-      ;==============================================================================================
-      ; WASD Movement Remapping
-      ; Prefer to use WASD instead of the arrow keys? Enable this! Simply set the value to 1
-      ; NOTE: The arrow keys will basically swap with WASD keys, so you can still assign keys to them
-      ; 0 = Disabled (default)
-      ; 1 = Enabled
-      wasd_remapping = "$wasd"
-      ;==============================================================================================
-      ; Expanded Quick Slot
-      ; This option will extend the quickslot window from 8 slots to 26 slots
-      ; 0 = Disabled (default)
-      ; 1 = Enabled
-      expanded_qs = "$quickslot"
-      ;==============================================================================================
-      EOF
+[Settings]
+
+; Most client modifications can be changed in-game via the Widget (bottom right button in-game).
+; For other settings, see below. Simply change the value after the "=" sign to your liking.
+
+;==============================================================================================
+; Change Client Resolution
+; NOTE: Larger resolutions can only be supported by specific monitors!
+; 0 = 800x600
+; 1 = 1280x720 (recommended)
+; 2 = 1280x800
+; 3 = 1600x900
+; 4 = 1920x1080
+; 5 = 1920x1200
+; 6 = 2560x1440
+; 7 = 3840x1080 (Ultrawide only)
+resolution = "$resolution"
+;==============================================================================================
+; Connect to Singapore Proxy Server
+; SEA users will experience more stable connections if enabling this configuration
+; Set this value to 1 only if you are having trouble connecting to the game server while overseas
+; 0 = Use main game server (default)
+; 1 = Use singapore proxy server
+singapore_proxy = "$proxy"
+;==============================================================================================
+; Change Position of Client on Launch
+; 0 = Client launches top left of screen
+; 1 = Client launches centered
+start_centered = "$centered"
+;==============================================================================================
+; Map Backgrounds
+; May increase performance at the cost of beauty
+; 0 = Disabled
+; 1 = Enabled (default)
+map_background = "$background"
+;==============================================================================================
+; WASD Movement Remapping
+; Prefer to use WASD instead of the arrow keys? Enable this! Simply set the value to 1
+; NOTE: The arrow keys will basically swap with WASD keys, so you can still assign keys to them
+; 0 = Disabled (default)
+; 1 = Enabled
+wasd_remapping = "$wasd"
+;==============================================================================================
+; Expanded Quick Slot
+; This option will extend the quickslot window from 8 slots to 26 slots
+; 0 = Disabled (default)
+; 1 = Enabled
+expanded_qs = "$quickslot"
+;==============================================================================================
+EOF
   }
 
   echo "Re-enabling write protection"
@@ -294,20 +294,20 @@ elif [ "$ID" == "arch"|"arch32"|"arcolinux"|"artix"|"blackarch"|"chimeraos"|"end
       rm ~/.local/share/applications/YunaMS.desktop
       touch ~/.local/share/applications/YunaMS.desktop
       cat <<-EOF> ~/.local/share/applications/YunaMS.desktop 
-        [Desktop Entry]
-        Name=YunaMS
-        Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
-        Type=Application
-        Terminal=false
-        Categories=Game;
-        Icon=~/Games/YunaMS/icon.png
-        Comment=Launch YunaMS using Bottles.
-        StartupWMClass=YunaMS
-        Actions=Configure;
-        [Desktop Action Configure]
-        Name=Configure in Bottles
-        Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
-        EOF
+  [Desktop Entry]
+  Name=YunaMS
+  Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
+  Type=Application
+  Terminal=false
+  Categories=Game;
+  Icon=~/Games/YunaMS/icon.png
+  Comment=Launch YunaMS using Bottles.
+  StartupWMClass=YunaMS
+  Actions=Configure;
+  [Desktop Action Configure]
+  Name=Configure in Bottles
+  Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
+  EOF
     fi
   }
 
@@ -390,56 +390,56 @@ elif [ "$ID" == "arch"|"arch32"|"arcolinux"|"artix"|"blackarch"|"chimeraos"|"end
     rm ~/Games/YunaMS/Settings.ini
     touch ~/Games/YunaMS/Settings.ini
     cat <<-EOF> ~/Games/YunaMS/Settings.ini
-      [Settings]
-      
-      ; Most client modifications can be changed in-game via the Widget (bottom right button in-game).
-      ; For other settings, see below. Simply change the value after the "=" sign to your liking.
-      
-      ;==============================================================================================
-      ; Change Client Resolution
-      ; NOTE: Larger resolutions can only be supported by specific monitors!
-      ; 0 = 800x600
-      ; 1 = 1280x720 (recommended)
-      ; 2 = 1280x800
-      ; 3 = 1600x900
-      ; 4 = 1920x1080
-      ; 5 = 1920x1200
-      ; 6 = 2560x1440
-      ; 7 = 3840x1080 (Ultrawide only)
-      resolution = "$resolution"
-      ;==============================================================================================
-      ; Connect to Singapore Proxy Server
-      ; SEA users will experience more stable connections if enabling this configuration
-      ; Set this value to 1 only if you are having trouble connecting to the game server while overseas
-      ; 0 = Use main game server (default)
-      ; 1 = Use singapore proxy server
-      singapore_proxy = "$proxy"
-      ;==============================================================================================
-      ; Change Position of Client on Launch
-      ; 0 = Client launches top left of screen
-      ; 1 = Client launches centered
-      start_centered = "$centered"
-      ;==============================================================================================
-      ; Map Backgrounds
-      ; May increase performance at the cost of beauty
-      ; 0 = Disabled
-      ; 1 = Enabled (default)
-      map_background = "$background"
-      ;==============================================================================================
-      ; WASD Movement Remapping
-      ; Prefer to use WASD instead of the arrow keys? Enable this! Simply set the value to 1
-      ; NOTE: The arrow keys will basically swap with WASD keys, so you can still assign keys to them
-      ; 0 = Disabled (default)
-      ; 1 = Enabled
-      wasd_remapping = "$wasd"
-      ;==============================================================================================
-      ; Expanded Quick Slot
-      ; This option will extend the quickslot window from 8 slots to 26 slots
-      ; 0 = Disabled (default)
-      ; 1 = Enabled
-      expanded_qs = "$quickslot"
-      ;==============================================================================================
-      EOF
+[Settings]
+
+; Most client modifications can be changed in-game via the Widget (bottom right button in-game).
+; For other settings, see below. Simply change the value after the "=" sign to your liking.
+
+;==============================================================================================
+; Change Client Resolution
+; NOTE: Larger resolutions can only be supported by specific monitors!
+; 0 = 800x600
+; 1 = 1280x720 (recommended)
+; 2 = 1280x800
+; 3 = 1600x900
+; 4 = 1920x1080
+; 5 = 1920x1200
+; 6 = 2560x1440
+; 7 = 3840x1080 (Ultrawide only)
+resolution = "$resolution"
+;==============================================================================================
+; Connect to Singapore Proxy Server
+; SEA users will experience more stable connections if enabling this configuration
+; Set this value to 1 only if you are having trouble connecting to the game server while overseas
+; 0 = Use main game server (default)
+; 1 = Use singapore proxy server
+singapore_proxy = "$proxy"
+;==============================================================================================
+; Change Position of Client on Launch
+; 0 = Client launches top left of screen
+; 1 = Client launches centered
+start_centered = "$centered"
+;==============================================================================================
+; Map Backgrounds
+; May increase performance at the cost of beauty
+; 0 = Disabled
+; 1 = Enabled (default)
+map_background = "$background"
+;==============================================================================================
+; WASD Movement Remapping
+; Prefer to use WASD instead of the arrow keys? Enable this! Simply set the value to 1
+; NOTE: The arrow keys will basically swap with WASD keys, so you can still assign keys to them
+; 0 = Disabled (default)
+; 1 = Enabled
+wasd_remapping = "$wasd"
+;==============================================================================================
+; Expanded Quick Slot
+; This option will extend the quickslot window from 8 slots to 26 slots
+; 0 = Disabled (default)
+; 1 = Enabled
+expanded_qs = "$quickslot"
+;==============================================================================================
+EOF
   }
 
 else
