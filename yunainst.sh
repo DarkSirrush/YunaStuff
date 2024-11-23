@@ -228,7 +228,7 @@ EOF
   echo ""
   echo "If you know what you are doing, and need write protection to stay off, please run the command \"sudo steamos-readonly disable\" again."
 
-elif [ "$ID" == "arch"|"arch32"|"arcolinux"|"artix"|"blackarch"|"chimeraos"|"endeavoros"|"garuda"|"hyperbola"|"kaos"|"manjaro"|"rebornos" ] ; then #Please note this is taken off a list of Arch-based distributions, there is no guarantee anything on this list actually works.
+elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "artix"|| "$ID" == "blackarch"|| "$ID" == "chimeraos"|| "$ID" == "endeavouros"|| "$ID" == "garuda"|| "$ID" == "hyperbola"|| "$ID" == "kaos"|| "$ID" == "manjaro"|| "$ID" == "rebornos" ]] ; then
 
   { #install MegaCMD to allow for direct download of Mega.nz links
     if pacman -Qs megacmd > /dev/null ; then
@@ -444,5 +444,5 @@ EOF
 
 else
   echo -e "This script does not support your OS. Raise an issue, or, better yet, do a pull request with your chosen OS at \e[0;34mhttps://github.com/DarkSirrush/YunaStuff\e[0m"
-
+fi
 }
