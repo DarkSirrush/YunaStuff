@@ -23,23 +23,20 @@
       echo "MegaCMD is installed, skipping..."
     else
       echo "Installing MegaCMD"
-      wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megacmd-x86_64.pkg.tar.zst"
+      wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "~/megacmd-x86_64.pkg.tar.zst"
       [ -f ~/megacmd-x86_64.pkg.tar.zst ] && rm ~/megacmd-x86_64.pkg.tar.zst #cleanup temp file
     fi
   }
   
   {
     echo "Downloading YunaMS.rar"
-    if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ; then
+    if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads ; then
         echo ""
         echo -e "Mega link out of date, please manually download from \e[0;34mhttps://yuna.ms/download\e[0m and run this script again."
         echo ""
         echo -e "Ping \e[0;35m@DarkSirrush\e[0m on Discord to get the link updated. Alternatively, start a pull request at \e[0;34mhttps://github.com/DarkSirrush/YunaStuff\e[0m"
         echo ""
         exit
-      else
-        [ -f ~/Downloads/YunaMS.rar ] && echo "YunaMS.rar already downloaded, skipping..."
-        [ ! -f ~/Downloads/YunaMS.rar ] && mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads #Download YunaMS main file
     fi
   }
 
@@ -49,7 +46,7 @@
   mkdir -p ~/Games #Ensures $HOME/Games directory exists
   ark -b ~/Downloads/YunaMS.rar -o ~/Games/ #Extracts game files
   { #Removes files to be overwritten by Linux Patcher files, to avoid user being prompted to overwrite them.
-    declare -a winversions=("D3DCompiler_47_cor3.dll" "Patcher.exe" "PenImc_cor3.dll" "PresentationNative_cor3.dll" "vcruntime140_cor3.dll" "wpfgfx_cor3.dll")
+    declare -a winversions=("D3DCompiler_47_cor3.dll" "Patcher.exe" "PenImc_cor3.dll" "PresentationNative_cor3.dll" "vcruntime140_cor3.dll" "wpfgfx_cor3.dll" "favicon.ico" "icon.png")
     for winfiles in "${winversions[@]}"
       do
         rm ~/Games/YunaMS/$winfiles
@@ -74,7 +71,7 @@
       mkdir -p ~/.local/share/applications/
       rm ~/.local/share/applications/YunaMS.desktop
       touch ~/.local/share/applications/YunaMS.desktop
-      cat <<-EOF> ~/.local/share/applications/YunaMS.desktop 
+      cat <<-EOF> ~/.local/share/applications/YunaMS.desktop
 [Desktop Entry]
 Name=YunaMS
 Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
@@ -234,7 +231,7 @@ elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "a
     if pacman -Qs megacmd > /dev/null ; then
       echo "megacmd is installed, skipping..."
     else
-      wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$PWD/megacmd-x86_64.pkg.tar.zst"
+      wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "~/megacmd-x86_64.pkg.tar.zst"
       [ -f ~/megacmd-x86_64.pkg.tar.zst ] && rm ~/megacmd-x86_64.pkg.tar.zst #cleanup temp file
     fi
   }
@@ -253,15 +250,13 @@ elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "a
   }
   
   {
-    if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ; then
+    if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads ; then
         echo ""
         echo -e "Mega link out of date, please manually download from \e[0;34mhttps://yuna.ms/download\e[0m and run this script again."
         echo ""
         echo -e "Ping \e[0;35m@DarkSirrush\e[0m on Discord to get the link updated. Alternatively, start a pull request at \e[0;34mhttps://github.com/DarkSirrush/YunaStuff\e[0m"
         echo ""
         exit
-      else
-        [ ! -f ~/Downloads/YunaMS.rar ] && mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads #Download YunaMS main file
     fi
   }
   
@@ -269,7 +264,7 @@ elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "a
   mkdir -p ~/Games #Ensures $HOME/Games directory exists
   ark -b ~/Downloads/YunaMS.rar -o ~/Games/ #Extracts game files
   { #Removes files to be overwritten by Linux Patcher files, to avoid user being prompted to overwrite them.
-    declare -a winversions=("D3DCompiler_47_cor3.dll" "Patcher.exe" "PenImc_cor3.dll" "PresentationNative_cor3.dll" "vcruntime140_cor3.dll" "wpfgfx_cor3.dll")
+    declare -a winversions=("D3DCompiler_47_cor3.dll" "Patcher.exe" "PenImc_cor3.dll" "PresentationNative_cor3.dll" "vcruntime140_cor3.dll" "wpfgfx_cor3.dll" "favicon.ico" "icon.png")
     for winfiles in "${winversions[@]}"
       do
         rm ~/Games/YunaMS/$winfiles
@@ -293,7 +288,7 @@ elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "a
       mkdir -p ~/.local/share/applications/
       rm ~/.local/share/applications/YunaMS.desktop
       touch ~/.local/share/applications/YunaMS.desktop
-      cat <<-EOF> ~/.local/share/applications/YunaMS.desktop 
+      cat <<-EOF> ~/.local/share/applications/YunaMS.desktop
 [Desktop Entry]
 Name=YunaMS
 Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
