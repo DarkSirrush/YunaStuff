@@ -61,7 +61,7 @@
   . "$BASH" &>/dev/null
   flatpak run com.usebottles.bottles #first run, close manually once done first run process... need to see if I can auto close it?
   flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name YunaMS --environment gaming #creates the bottle
-  flatpak run --env="WINEPREFIX=~/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS" --env="WINEARCH=win64" org.winehq.Wine /app/bin/winetricks -q dinput8 dotnetdesktop6 #installs Patcher dependencies
+  flatpak run --env="WINEPREFIX=/home/deck/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS" --env="WINEARCH=win64" org.winehq.Wine /app/bin/winetricks -q dinput8 dotnetdesktop6 #installs Patcher dependencies
   flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n YunaMS -p ~/Games/YunaMS/YunaMS.exe #adds launch option for game
   flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n Patcher -p ~/Games/YunaMS/Patcher.exe #adds launch option for patcher
   flatpak run --command=bottles-cli com.usebottles.bottles run -b YunaMS -p Patcher #Patcher first run
