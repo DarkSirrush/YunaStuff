@@ -17,7 +17,6 @@
   sudo steamos-readonly disable
   sudo pacman-key --init
   sudo pacman-key --populate archlinux
-  
   { #install MegaCMD to allow for direct download of Mega.nz links
     if pacman -Qs megacmd > /dev/null ; then
       echo "MegaCMD is installed, skipping..."
@@ -29,8 +28,10 @@
   }
   
   {
-    echo "Downloading YunaMS.rar"
-    if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads ; then
+    megalink=$(curl https://yuna.ms/download | grep -o https\:\/\/mega.nz.*\"\> )
+    megalink=${megalink:0:$((${#megalink} - 2))}
+    echo "Downloading YunaMS.rar from $megalink"
+    if ! mega-get $megalink ~/Downloads ; then
         echo ""
         echo -e "Mega link out of date, please manually download from \e[0;34mhttps://yuna.ms/download\e[0m and run this script again."
         echo ""
@@ -250,7 +251,10 @@ elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "a
   }
   
   {
-    if ! mega-get https://mega.nz/file/Nj0VBKYL#9lU738YDXSPv4ySjMM2bVI_grSTUR9f0zidValq-YhU ~/Downloads ; then
+    megalink=$(curl https://yuna.ms/download | grep -o https\:\/\/mega.nz.*\"\> )
+    megalink=${megalink:0:$((${#megalink} - 2))}
+    echo "Downloading YunaMS.rar from $megalink"
+    if ! mega-get $megalink ~/Downloads ; then
         echo ""
         echo -e "Mega link out of date, please manually download from \e[0;34mhttps://yuna.ms/download\e[0m and run this script again."
         echo ""
