@@ -17,6 +17,8 @@
   sudo steamos-readonly disable
   sudo pacman-key --init
   sudo pacman-key --populate archlinux
+  sudo pacman -Syyu #Just because
+  sudo pacman -Scc #To hopefully remove everything broken if needed
   { #install MegaCMD to allow for direct download of Mega.nz links
     if pacman -Qs megacmd > /dev/null ; then
       echo "MegaCMD is installed, skipping..."
@@ -50,13 +52,13 @@
     declare -a winversions=("D3DCompiler_47_cor3.dll" "Patcher.exe" "PenImc_cor3.dll" "PresentationNative_cor3.dll" "vcruntime140_cor3.dll" "wpfgfx_cor3.dll" "favicon.ico" "icon.png")
     for winfiles in "${winversions[@]}"
       do
-        rm ~/Games/YunaMS/$winfiles
+        rm ~/Games/YunaMS/$winfiles > /dev/null
       done
   }
   
   ark -b ~/Downloads/linux-patcher.rar -o ~/Games/YunaMS/
   flatpak install -y --noninteractive flathub com.usebottles.bottles #install bottles from Flathub
-  flatpak install -y --noninteractive flathub org.winehq.Wine
+  sudo flatpak install -y --noninteractive flathub org.winehq.Wine/x86_64/stable-24.08 #Installs wine from Flathub, version set to reduce need for user input
   flatpak override --user --filesystem=home com.usebottles.bottles
   sleep 5 && echo "Sleeping for 5 seconds"
   . "$BASH" &>/dev/null
@@ -68,6 +70,7 @@
   flatpak run --command=bottles-cli com.usebottles.bottles run -b YunaMS -p Patcher #Patcher first run
 
   { #Create Application Menu Shortcut
+    echo "Creating Application Menu Shortcut - Game still needs to be added to Steam manually"
     if [ ! -f ~/.local/share/applications/YunaMS.desktop ]; then
       mkdir -p ~/.local/share/applications/
       rm ~/.local/share/applications/YunaMS.desktop
@@ -263,7 +266,8 @@ elif [[ "$ID" == "arch"|| "$ID" == "arch32"|| "$ID" == "arcolinux"|| "$ID" == "a
         exit
     fi
   }
-  
+
+  echo "Downloading linux-patcher.rar"
   [ ! -f ~/Downloads/linux-patcher.rar ] && curl https://yuna.ms/linux-patcher -o ~/Downloads/linux-patcher.rar #Download linux-specific files
   mkdir -p ~/Games #Ensures $HOME/Games directory exists
   ark -b ~/Downloads/YunaMS.rar -o ~/Games/ #Extracts game files
