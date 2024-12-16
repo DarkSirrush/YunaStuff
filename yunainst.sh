@@ -41,7 +41,7 @@ megaInstall() { #install MegaCMD to allow for direct download of Mega.nz links
     else
         echo "Installing MegaCMD"
         wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megacmd-x86_64.pkg.tar.zst && sudo pacman -U --noconfirm "$HOME/megacmd-x86_64.pkg.tar.zst"
-        [ -f ~/megacmd-x86_64.pkg.tar.zst ] && rm ~/megacmd-x86_64.pkg.tar.zst #cleanup temp file
+        [ -f $HOME/megacmd-x86_64.pkg.tar.zst ] && rm $HOME/megacmd-x86_64.pkg.tar.zst #cleanup temp file
         sudo pacman -Sy
     fi
 }
@@ -52,16 +52,16 @@ patcherDownload() {
     [ ! -f $HOME/Downloads/linux-patcher.rar ] && curl https://yuna.ms/linux-patcher -o $HOME/Downloads/linux-patcher.rar #Download linux-specific files
     mkdir -p $HOME/Games #Ensures $HOME/Games directory exists
     echo "Extracting YunaMS.rar"
-    ark -b $HOME/Downloads/YunaMS.rar -o ~/Games/ #Extracts game files
+    ark -b $HOME/Downloads/YunaMS.rar -o $HOME/Games/ #Extracts game files
     { #Removes files to be overwritten by Linux Patcher files, to avoid user being prompted to overwrite them.
         declare -a winVersions=("D3DCompiler_47_cor3.dll" "Patcher.exe" "PenImc_cor3.dll" "PresentationNative_cor3.dll" "vcruntime140_cor3.dll" "wpfgfx_cor3.dll" "favicon.ico" "icon.png")
         for winFiles in "${winVersions[@]}"
         do
-            rm ~/Games/YunaMS/$winFiles > /dev/null
+            rm $HOME/Games/YunaMS/$winFiles > /dev/null
         done
     }
     echo "Extracting Linux Patcher Files"
-    ark -b ~/Downloads/linux-patcher.rar -o ~/Games/YunaMS/
+    ark -b $HOME/Downloads/linux-patcher.rar -o $HOME/Games/YunaMS/
 }
 
 gameDownload() {
@@ -100,11 +100,11 @@ bottlesInstall() {
     flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name YunaMS --environment gaming #creates the bottle
     sleep 5
     echo "Installing dependencies"
-    WINEPREFIX=~/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS winetricks -q dinput8 dotnetdesktop6 #installs Patcher dependencies
+    WINEPREFIX=$HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS winetricks -q dinput8 dotnetdesktop6 #installs Patcher dependencies
     sleep 5
     echo "Adding YunaMS and Patcher to Bottles Launcher"
-    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n YunaMS -p ~/Games/YunaMS/YunaMS.exe #adds launch option for game
-    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n Patcher -p ~/Games/YunaMS/Patcher.exe #adds launch option for patcher
+    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n YunaMS -p $HOME/Games/YunaMS/YunaMS.exe #adds launch option for game
+    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n Patcher -p $HOME/Games/YunaMS/Patcher.exe #adds launch option for patcher
     echo "Running Patcher"
     flatpak run --command=bottles-cli com.usebottles.bottles run -b YunaMS -p Patcher #Patcher first run
     echo "Patcher complete, continuing"
@@ -131,8 +131,8 @@ steamdeckBottles() {
     flatpak run --env="WINEPREFIX=/home/deck/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS" --env="WINEARCH=win64" org.winehq.Wine /app/bin/winetricks -q dinput8 dotnetdesktop6 #installs Patcher dependencies
     sleep 5
     echo "Adding YunaMS and Patcher to Bottles Launcher"
-    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n YunaMS -p ~/Games/YunaMS/YunaMS.exe #adds launch option for game
-    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n Patcher -p ~/Games/YunaMS/Patcher.exe #adds launch option for patcher
+    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n YunaMS -p $HOME/Games/YunaMS/YunaMS.exe #adds launch option for game
+    flatpak run --command=bottles-cli com.usebottles.bottles add -b YunaMS -n Patcher -p $HOME/Games/YunaMS/Patcher.exe #adds launch option for patcher
     echo "Running Patcher"
     flatpak run --command=bottles-cli com.usebottles.bottles run -b YunaMS -p Patcher #Patcher first run
     echo "Patcher complete, continuing"
@@ -140,17 +140,17 @@ steamdeckBottles() {
 
 createShortcut() {
     echo "Creating Launcher Shortcut"
-    if [ ! -f ~/.local/share/applications/YunaMS.desktop ]; then
-      mkdir -p ~/.local/share/applications/
-      touch ~/.local/share/applications/YunaMS.desktop
-      cat <<-EOF> ~/.local/share/applications/YunaMS.desktop
+    if [ ! -f $HOME/.local/share/applications/YunaMS.desktop ]; then
+      mkdir -p $HOME/.local/share/applications/
+      touch $HOME/.local/share/applications/YunaMS.desktop
+      cat <<-EOF> $HOME/.local/share/applications/YunaMS.desktop
 [Desktop Entry]
 Name=YunaMS
 Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p YunaMS -b 'YunaMS' -- %u
 Type=Application
 Terminal=false
 Categories=Game;
-Icon=~/Games/YunaMS/icon.png
+Icon=$HOME/Games/YunaMS/icon.png
 Comment=Launch YunaMS using Bottles.
 StartupWMClass=YunaMS
 Actions=Configure;
@@ -242,9 +242,9 @@ createSettings() {
       fi
 
     fi
-    rm ~/Games/YunaMS/[sS]ettings.ini
-    touch ~/Games/YunaMS/Settings.ini
-    cat <<-EOF> ~/Games/YunaMS/Settings.ini
+    rm $HOME/Games/YunaMS/[sS]ettings.ini
+    touch $HOME/Games/YunaMS/Settings.ini
+    cat <<-EOF> $HOME/Games/YunaMS/Settings.ini
 [Settings]
 
 ; Most client modifications can be changed in-game via the Widget (bottom right button in-game).
@@ -321,5 +321,17 @@ echo "Settings Created"
         echo "Done"
     else
         echo -e "This script does not support your OS. Raise an issue, or, better yet, do a pull request with your chosen OS at \e[0;34mhttps://github.com/DarkSirrush/YunaStuff\e[0m"
+    fi
+    read -p 'Would you like to remove the install files (y/N)? ' cleanUpq
+    if [[ "$cleanUpq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
+        read -p 'Do you wish to keep YunaMS.rar for faster reinstallation (y/N)? ' keepClientq
+        if [[ "$keepClientq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
+        rm $HOME/yunainst.sh
+        rm $HOME/Downloads/linux-patcher.rar
+        else
+        rm $HOME/yunainst.sh
+        rm $HOME/Downloads/linux-patcher.rar
+        rm $HOME/Downloads/[yY]una[mM][sS].rar
+        fi
     fi
 }
