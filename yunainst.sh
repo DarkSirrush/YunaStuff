@@ -153,7 +153,10 @@ Categories=Game;
 Icon=$HOME/Games/YunaMS/icon.png
 Comment=Launch YunaMS using Bottles.
 StartupWMClass=YunaMS
-Actions=Configure;
+Actions=Patcher;Configure;
+[Desktop Action Patcher]
+Name=Run Patcher
+Exec=flatpak run --command=bottles-cli com.usebottles.bottles run -p Patcher -b 'YunaMS' -- %u
 [Desktop Action Configure]
 Name=Configure in Bottles
 Exec=flatpak run com.usebottles.bottles -b 'YunaMS'
