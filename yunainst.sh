@@ -312,6 +312,10 @@ echo "Settings Created"
         createShortcut
         resolution="2"
         createSettings
+        echo "Re-enabling write protection"
+        sudo steamos-readonly enable
+        echo ""
+        echo "If you know what you are doing, and need write protection to stay off, please run the command \"sudo steamos-readonly disable\" again."
         echo "Done"
     elif command -v pacman > /dev/null ; then
         installDependencies
@@ -329,12 +333,12 @@ echo "Settings Created"
     if [[ "$cleanUpq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
         read -p 'Do you wish to keep YunaMS.rar for faster reinstallation (y/N)? ' keepClientq
         if [[ "$keepClientq" =~ ^([yY][eE][sS]|[yY])|"1"$ ]]; then
-        rm $HOME/yunainst.sh
-        rm $HOME/Downloads/linux-patcher.rar
+            rm $HOME/yunainst.sh
+            rm $HOME/Downloads/linux-patcher.rar
         else
-        rm $HOME/yunainst.sh
-        rm $HOME/Downloads/linux-patcher.rar
-        rm $HOME/Downloads/[yY]una[mM][sS].rar
+            rm $HOME/yunainst.sh
+            rm $HOME/Downloads/linux-patcher.rar
+            rm $HOME/Downloads/[yY]una[mM][sS].rar
         fi
     fi
 }
