@@ -84,6 +84,20 @@ gameDownload() {
     fi
 }
 
+bottleCheck() {
+    yunaBottle=$(flatpak run --command=bottles-cli com.usebottles.bottles list bottles | grep -c [yY]una[mM][sS])
+    if [ $yunaBottle -eq 0 ] ; then
+        bottlesInstall
+    else
+        echo "YunaMS Bottle Found"
+        read -p 'Would you like to remake the YunaMS Bottle (y/N)? ' yunaBottleq
+        if [[ "$yunaBottleq" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        sudo rm -R $HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS
+        bottlesInstall2
+        fi
+    fi
+}
+
 bottlesInstall() {
     echo "Installing Bottles"
     flatpak install -y --noninteractive flathub com.usebottles.bottles #install bottles from Flathub
@@ -96,6 +110,10 @@ bottlesInstall() {
     echo "Running Bottles for first time"
     echo "Please follow the prompts from Bottles, and close it once complete"
     flatpak run com.usebottles.bottles #first run, close manually once done first run process... need to see if I can auto close it?
+    bottlesInstall2
+}
+
+bottlesInstall2() {
     echo "Creating YunaMS Bottle"
     flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name YunaMS --environment gaming #creates the bottle
     sleep 5
@@ -108,6 +126,20 @@ bottlesInstall() {
     echo "Running Patcher"
     flatpak run --command=bottles-cli com.usebottles.bottles run -b YunaMS -p Patcher #Patcher first run
     echo "Patcher complete, continuing"
+}
+
+steamdeckBottleCheck() {
+    yunaBottle=$(flatpak run --command=bottles-cli com.usebottles.bottles list bottles | grep -c [yY]una[mM][sS])
+    if [ $yunaBottle -eq 0 ] ; then
+        steamdeckBottles
+    else
+        echo "YunaMS Bottle Found"
+        read -p 'Would you like to remake the YunaMS Bottle (y/N)? ' yunaBottleq
+        if [[ "$yunaBottleq" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        sudo rm -R $HOME/.var/app/com.usebottles.bottles/data/bottles/bottles/YunaMS
+        steamdeckBottles2
+        fi
+    fi
 }
 
 steamdeckBottles() {
@@ -124,6 +156,10 @@ steamdeckBottles() {
     echo "Running Bottles for first time"
     echo "Please follow the prompts from Bottles, and close it once complete"
     flatpak run com.usebottles.bottles #first run, close manually once done first run process... need to see if I can auto close it?
+    steamdeckBottles2
+}
+
+steamdeckBottles2() {
     echo "Creating YunaMS Bottle"
     flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name YunaMS --environment gaming #creates the bottle
     sleep 5
@@ -308,7 +344,7 @@ echo "Settings Created"
         steamdeckStart
         megaInstall
         gameDownload
-        steamdeckBottles
+        steamdeckBottleCheck
         createShortcut
         resolution="2"
         createSettings
@@ -321,7 +357,7 @@ echo "Settings Created"
         installDependencies
         megaInstall
         gameDownload
-        bottlesInstall
+        bottleCheck
         createShortcut
         resolution="1"
         createSettings
