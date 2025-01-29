@@ -293,13 +293,14 @@ createSettings() {
 ; Change Client Resolution
 ; NOTE: Larger resolutions can only be supported by specific monitors!
 ; 0 = 800x600
-; 1 = 1280x720 (recommended)
-; 2 = 1280x800
-; 3 = 1600x900
-; 4 = 1920x1080
-; 5 = 1920x1200
-; 6 = 2560x1440
-; 7 = 3840x1080 (Ultrawide only)
+; 1 = 1024x768
+; 2 = 1280x720 (recommended)
+; 3 = 1280x800 (steam deck default)
+; 4 = 1600x900
+; 5 = 1920x1080
+; 6 = 1920x1200
+; 7 = 2560x1440
+; 8 = 3840x1080 (Ultrawide only)
 resolution = $resolution
 ;==============================================================================================
 ; Connect to Singapore Proxy Server
@@ -346,7 +347,7 @@ echo "Settings Created"
         gameDownload
         steamdeckBottleCheck
         createShortcut
-        resolution="2"
+        resolution="3"
         createSettings
         echo "Re-enabling write protection"
         sudo steamos-readonly enable
@@ -359,7 +360,7 @@ echo "Settings Created"
         gameDownload
         bottleCheck
         createShortcut
-        resolution="1"
+        resolution="2"
         createSettings
         echo "Done"
     else
